@@ -79,15 +79,17 @@ const TextInput = forwardRef<RNTextInput, TextInputProps>(function TextInput(
   }, [props.onSubmit, ref]);
 
   return (
-    <View style={styles.container}>
+    <View testID="text-input" style={styles.container}>
       <View style={styles.inputContainer}>
         <RNTextInput
           {...props}
           ref={ref ? ref : textInputRef}
           style={textInputStyle}
+          testID="text-input-field"
         />
         {showSubmitButton ? (
           <Pressable
+            testID="submit-button"
             onPress={handleSubmitButtonPress}
             style={styles.submitButton}
             disabled={loading}
