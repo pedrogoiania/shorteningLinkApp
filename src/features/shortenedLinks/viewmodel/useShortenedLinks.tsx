@@ -8,10 +8,6 @@ function useShortenedLinks() {
     ShortenedLinkWireOut["originalUrl"] | ""
   >("");
 
-  const [tempLinkTyped, setTempLinkTyped] = useState<
-    ShortenedLinkWireOut["originalUrl"] | ""
-  >("");
-
   const [shortenUrlLoading, setShortenUrlLoading] = useState(false);
 
   const { shortenUrl, shortenedLinks } = useShortenerRepository();
@@ -19,11 +15,9 @@ function useShortenedLinks() {
   const addShortenedLink = useCallback(
     async (url: ShortenedLinkWireOut["originalUrl"]) => {
       setLinkTyped("");
-      setTempLinkTyped(url);
       setShortenUrlLoading(true);
       try {
         await shortenUrl({ originalUrl: url });
-        setTempLinkTyped("");
       } catch (error) {
         setLinkTyped(url);
         Alert.alert(
