@@ -12,6 +12,8 @@ const buildStyles = () => {
 
 const errorMessages = {
   dontAllowSpaces: "Spaces are not allowed",
+  invalidUrl: "Should start with http:// or https://",
+  empty: "Please enter a URL",
 };
 
 function UrlSubmitForm() {
@@ -40,11 +42,11 @@ function UrlSubmitForm() {
     handleClearErrorMessage();
 
     if (!textValue.length) {
-      return handleErrorMessage("Please enter a URL");
+      return handleErrorMessage(errorMessages.empty);
     }
 
     if (!isValidUrl(textValue)) {
-      return handleErrorMessage("Please enter a valid URL");
+      return handleErrorMessage(errorMessages.invalidUrl);
     }
 
     textInputRef.current?.blur();
@@ -88,6 +90,11 @@ function UrlSubmitForm() {
       onChangeText={handleChangeText}
       error={error}
       style={[styles.textInput]}
+      autoComplete="off"
+      autoCapitalize="none"
+      textContentType="none"
+      autoCorrect={false}
+      importantForAutofill="no"
     />
   );
 }

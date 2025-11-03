@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "nulinks",
-    "slug": "nulinks",
+    "name": "shorteninglink",
+    "slug": "shorteninglink",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "nulinks",
+    "scheme": "shorteninglink",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
