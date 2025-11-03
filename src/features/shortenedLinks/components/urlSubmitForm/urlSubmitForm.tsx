@@ -16,7 +16,11 @@ const errorMessages = {
   empty: "Please enter a URL",
 };
 
-function UrlSubmitForm() {
+type UrlSubmitFormProps = {
+  onSubmit: (url: string) => void;
+};
+
+function UrlSubmitForm({ onSubmit }: UrlSubmitFormProps) {
   const styles = useMemo(() => buildStyles(), []);
 
   const [textValue, setTextValue] = useState("");
@@ -52,7 +56,8 @@ function UrlSubmitForm() {
     textInputRef.current?.blur();
 
     setTextValue("");
-  }, [textValue]);
+    onSubmit(textValue);
+  }, [textValue, onSubmit]);
 
   const handleErrorMessage = useCallback(
     (message: string) => {
