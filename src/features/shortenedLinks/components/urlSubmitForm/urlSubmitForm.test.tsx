@@ -2,6 +2,18 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-
 import React from 'react';
 import UrlSubmitForm from './urlSubmitForm';
 
+// Override fireEvent.changeText to ensure it calls onChangeText
+const originalChangeText = fireEvent.changeText;
+fireEvent.changeText = (element: any, ...data: unknown[]) => {
+  const text = data[0] as string;
+  // Call the original
+  originalChangeText(element, ...data);
+  // Also manually trigger onChangeText if it exists
+  if (element.props && element.props.onChangeText) {
+    element.props.onChangeText(text);
+  }
+};
+
 // Mock the TextInput component
 jest.mock('@/src/components/textInput/textInput', () => {
   const React = require('react');
@@ -24,13 +36,22 @@ jest.mock('@/src/components/textInput/textInput', () => {
     textContentType,
     autoCorrect,
     importantForAutofill,
-  }: any, ref: any) => (
+  }: any, ref: any) => {
+    // Custom changeText handler that always calls onChangeText regardless of editable
+    const handleChangeText = (text: string) => {
+      if (onChangeText) {
+        onChangeText(text);
+      }
+    };
+
+
+    return (
     <View testID="text-input">
       <RNTextInput
         ref={ref}
         testID="text-input-field"
         value={value}
-        onChangeText={onChangeText}
+        onChangeText={handleChangeText}
         onSubmitEditing={onSubmit}
         placeholder={placeholder}
         editable={editable}
@@ -45,8 +66,8 @@ jest.mock('@/src/components/textInput/textInput', () => {
       {showSubmitButton && (
         <Pressable
           testID="submit-button"
-          onPress={loading ? undefined : onSubmit}
-          disabled={loading}
+          onPress={onSubmit}
+          disabled={false}
         >
           <Text>{loading ? 'Loading...' : 'Submit'}</Text>
         </Pressable>
@@ -59,7 +80,8 @@ jest.mock('@/src/components/textInput/textInput', () => {
         </View>
       )}
     </View>
-  ));
+    );
+  });
 
   MockTextInput.displayName = 'MockTextInput';
   return {
@@ -338,7 +360,7 @@ describe('UrlSubmitForm', () => {
 
     const inputField = screen.getByTestId('text-input-field');
     act(() => {
-      fireEvent(inputField, 'changeText', 'new text');
+      fireEvent.changeText(inputField, 'new text');
     });
 
     expect(mockSetTextValue).not.toHaveBeenCalled();
@@ -365,4 +387,17 @@ describe('UrlSubmitForm', () => {
     // Error should still be there until timeout, but setTextValue should be called
     expect(mockSetTextValue).toHaveBeenCalledWith('https://valid-url.com');
   });
+
+  it('returns early from handleSubmit when loading is true', () => {
+    render(<UrlSubmitForm {...defaultProps} loading={true} textValue="https://example.com" />);
+
+    const submitButton = screen.getByTestId('submit-button');
+    act(() => {
+      fireEvent.press(submitButton);
+    });
+
+    // Verify that onSubmit was not called (early return executed)
+    expect(mockOnSubmit).not.toHaveBeenCalled();
+  });
+
 });
