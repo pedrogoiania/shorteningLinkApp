@@ -1,5 +1,6 @@
 import { forwardRef, useCallback, useMemo, useRef } from "react";
 import {
+  ActivityIndicator,
   Pressable,
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
@@ -55,12 +56,13 @@ type TextInputProps = RNTextInputProps & {
   showSubmitButton?: boolean;
   onSubmit?: () => void;
   error?: string;
+  loading?: boolean;
 };
 
 export type TextInputRef = RNTextInput;
 
 const TextInput = forwardRef<RNTextInput, TextInputProps>(function TextInput(
-  { showSubmitButton = false, error, ...props },
+  { showSubmitButton = false, error, loading, ...props },
   ref
 ) {
   const colors = useColors();
@@ -88,8 +90,14 @@ const TextInput = forwardRef<RNTextInput, TextInputProps>(function TextInput(
           <Pressable
             onPress={handleSubmitButtonPress}
             style={styles.submitButton}
+            disabled={loading}
           >
-            <FontAwesome6 name="paper-plane" size={24} color={colors.black} />
+            {!loading ? (
+              <FontAwesome6 name="paper-plane" size={24} color={colors.black} />
+            ) : null}
+            {loading ? (
+              <ActivityIndicator size="small" color={colors.black} />
+            ) : null}
           </Pressable>
         ) : null}
       </View>

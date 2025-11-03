@@ -18,12 +18,19 @@ const errorMessages = {
 
 type UrlSubmitFormProps = {
   onSubmit: (url: string) => void;
+  loading: boolean;
+  textValue: string;
+  setTextValue: (text: string) => void;
 };
 
-function UrlSubmitForm({ onSubmit }: UrlSubmitFormProps) {
+function UrlSubmitForm({
+  onSubmit,
+  loading,
+  textValue,
+  setTextValue,
+}: UrlSubmitFormProps) {
   const styles = useMemo(() => buildStyles(), []);
 
-  const [textValue, setTextValue] = useState("");
   const [error, setError] = useState("");
 
   let intervalErrorMessage: NodeJS.Timeout | undefined;
@@ -43,6 +50,10 @@ function UrlSubmitForm({ onSubmit }: UrlSubmitFormProps) {
   }, []);
 
   const handleSubmit = useCallback(() => {
+    if (loading) {
+      return;
+    }
+
     handleClearErrorMessage();
 
     if (!textValue.length) {
@@ -55,8 +66,8 @@ function UrlSubmitForm({ onSubmit }: UrlSubmitFormProps) {
 
     textInputRef.current?.blur();
 
-    setTextValue("");
     onSubmit(textValue);
+    setTextValue("");
   }, [textValue, onSubmit]);
 
   const handleErrorMessage = useCallback(
@@ -71,6 +82,10 @@ function UrlSubmitForm({ onSubmit }: UrlSubmitFormProps) {
   );
 
   const handleChangeText = useCallback((text: string) => {
+    if (loading) {
+      return;
+    }
+
     let valueToSet = text;
 
     if (text.includes(" ")) {
@@ -87,6 +102,11 @@ function UrlSubmitForm({ onSubmit }: UrlSubmitFormProps) {
 
   return (
     <TextInput
+      placeholder={
+        loading ? "Creating shortened link..." : "Enter a URL to shorten"
+      }
+      editable={!loading}
+      loading={loading}
       ref={textInputRef}
       keyboardType="url"
       showSubmitButton={true}

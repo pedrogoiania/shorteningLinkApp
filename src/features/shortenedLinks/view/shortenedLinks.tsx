@@ -4,13 +4,18 @@ import UrlSubmitForm from "../components/urlSubmitForm/urlSubmitForm";
 import useShortenedLinks from "../viewmodel/useShortenedLinks";
 
 function ShortenedLinks() {
-
-  const { addShortenedLink } = useShortenedLinks();
+  const { addShortenedLink, shortenUrlLoading, linkTyped, setLinkTyped } =
+    useShortenedLinks();
 
   return (
     <BaseView>
       <CallToActionHeader />
-      <UrlSubmitForm onSubmit={addShortenedLink} />
+      <UrlSubmitForm
+        onSubmit={addShortenedLink}
+        loading={shortenUrlLoading}
+        textValue={linkTyped}
+        setTextValue={setLinkTyped}
+      />
     </BaseView>
   );
 }

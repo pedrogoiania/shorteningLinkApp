@@ -19,10 +19,11 @@ function useShortenerService() {
           url: shortenedLinkWireOut.originalUrl,
         });
 
+
         const shortenedLinkWireIn = {
           id: response.data.alias,
           originalUrl: response.data._links.self,
-          shortenedUrl: response.data._link.short,
+          shortenedUrl: response.data._links.short,
         };
 
         return shortenedLinkWireIn;
@@ -44,7 +45,7 @@ function useShortenerService() {
           originalUrl: response.data._links.self,
           shortenedUrl: response.data._link.short,
         };
-        
+
         return shortenedLinkWireIn;
       } catch (error) {
         console.error(error);
