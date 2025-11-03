@@ -33,6 +33,8 @@ function UrlSubmitForm({
 
   const [error, setError] = useState("");
 
+  const defaultDismissErrorMessageTimeout = 10000;
+
   let intervalErrorMessage: NodeJS.Timeout | undefined;
 
   const textInputRef = useRef<TextInputRef>(null);
@@ -76,7 +78,7 @@ function UrlSubmitForm({
 
       intervalErrorMessage = setInterval(() => {
         handleClearErrorMessage();
-      }, 10000);
+      }, defaultDismissErrorMessageTimeout);
     },
     [error]
   );

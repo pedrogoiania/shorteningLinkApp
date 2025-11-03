@@ -1,8 +1,8 @@
 import { api } from "@/src/core/network/shortenerServer/shortenerServer";
 import { useCallback } from "react";
 import {
-    ShortenedLinkWireIn,
-    ShortenedLinkWireOut,
+  ShortenedLinkWireIn,
+  ShortenedLinkWireOut,
 } from "../models/ShortenedLink";
 
 const shortenerPaths = {
@@ -43,7 +43,7 @@ function useShortenerService() {
         const shortenedLinkWireIn = {
           id: response.data.alias,
           originalUrl: response.data._links.self,
-          shortenedUrl: response.data._link.short,
+          shortenedUrl: response.data._links.short,
         };
 
         return shortenedLinkWireIn;
