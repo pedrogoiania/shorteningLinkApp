@@ -1,11 +1,17 @@
 import BaseView from "@/src/components/baseView/baseView";
 import CallToActionHeader from "../components/callToActionHeader/callToActionHeader";
+import ShortenedLinksHistory from "../components/shortenedLinksHistory/shortenedLinksHistory";
 import UrlSubmitForm from "../components/urlSubmitForm/urlSubmitForm";
 import useShortenedLinks from "../viewmodel/useShortenedLinks";
 
 function ShortenedLinks() {
-  const { addShortenedLink, shortenUrlLoading, linkTyped, setLinkTyped } =
-    useShortenedLinks();
+  const {
+    addShortenedLink,
+    shortenUrlLoading,
+    linkTyped,
+    setLinkTyped,
+    shortenedLinks,
+  } = useShortenedLinks();
 
   return (
     <BaseView>
@@ -16,6 +22,7 @@ function ShortenedLinks() {
         textValue={linkTyped}
         setTextValue={setLinkTyped}
       />
+      <ShortenedLinksHistory shortenedLinks={shortenedLinks} />
     </BaseView>
   );
 }

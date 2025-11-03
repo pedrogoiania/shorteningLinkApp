@@ -14,8 +14,7 @@ function useShortenedLinks() {
 
   const [shortenUrlLoading, setShortenUrlLoading] = useState(false);
 
-  const { shortenUrl, getShortenedLink, shortenedLinks } =
-    useShortenerRepository();
+  const { shortenUrl, shortenedLinks } = useShortenerRepository();
 
   const addShortenedLink = useCallback(
     async (url: ShortenedLinkWireOut["originalUrl"]) => {
@@ -39,7 +38,7 @@ function useShortenedLinks() {
   );
 
   return {
-    shortenedLinks,
+    shortenedLinks: shortenedLinks.reverse(),
     addShortenedLink,
     shortenUrlLoading,
     linkTyped,
