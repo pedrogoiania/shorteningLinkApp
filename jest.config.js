@@ -13,6 +13,8 @@ module.exports = {
     '!**/*.d.ts',
     '!**/node_modules/**',
     '!**/coverage/**',
+    '!**/app/**',
     '!jest.config.js',
   ],
+  coverageReporters: ['text', 'lcov', 'html'],
 };

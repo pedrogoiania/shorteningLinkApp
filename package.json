@@ -9,6 +9,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "postinstall": "cp .env.example .env"
   },
   "dependencies": {
