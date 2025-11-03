@@ -25,7 +25,7 @@ function useShortenedLinks() {
         await shortenUrl({ originalUrl: url });
         setTempLinkTyped("");
       } catch (error) {
-        setLinkTyped(tempLinkTyped);
+        setLinkTyped(url);
         Alert.alert(
           "Failed to add shortened link",
           error instanceof Error ? error.message : "Unknown error"

@@ -1,13 +1,17 @@
 import { act, renderHook } from '@testing-library/react-native';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, Appearance } from 'react-native';
 import useAppStore, { Theme, getInitialTheme, useInitializeTheme } from './appStore';
 
-// Mock useColorScheme
+// Mock useColorScheme and Appearance
 jest.mock('react-native', () => ({
   useColorScheme: jest.fn(),
+  Appearance: {
+    getColorScheme: jest.fn(),
+  },
 }));
 
 const mockUseColorScheme = useColorScheme as jest.MockedFunction<typeof useColorScheme>;
+const mockGetColorScheme = Appearance.getColorScheme as jest.MockedFunction<typeof Appearance.getColorScheme>;
 
 describe('getInitialTheme', () => {
   it('should return DARK theme when colorScheme is "dark"', () => {
@@ -36,6 +40,8 @@ describe('useAppStore', () => {
   beforeEach(() => {
     // Reset all mocks
     jest.clearAllMocks();
+    // Set default return value for Appearance.getColorScheme
+    mockGetColorScheme.mockReturnValue('light');
   });
 
   describe('Theme enum', () => {
@@ -44,6 +50,7 @@ describe('useAppStore', () => {
       expect(Theme.DARK).toBe('dark');
     });
   });
+
 
   describe('useInitializeTheme hook', () => {
     beforeEach(() => {

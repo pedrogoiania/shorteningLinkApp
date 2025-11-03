@@ -234,7 +234,7 @@ describe('useShortenedLinks', () => {
       expect(result.current.linkTyped).toBe('');
     });
 
-    it('should restore linkTyped from tempLinkTyped on error', async () => {
+    it('should restore linkTyped with the submitted URL on error', async () => {
       const mockError = new Error('Shortening failed');
       mockShortenUrl.mockRejectedValue(mockError);
 
@@ -251,9 +251,13 @@ describe('useShortenedLinks', () => {
         await result.current.addShortenedLink('https://failing.com');
       });
 
-      // The error handling should have been called
-      expect(mockShortenUrl).toHaveBeenCalled();
-      expect(Alert.alert).toHaveBeenCalled();
+      // linkTyped should be restored with the URL that failed
+      expect(result.current.linkTyped).toBe('https://failing.com');
+      expect(mockShortenUrl).toHaveBeenCalledWith({ originalUrl: 'https://failing.com' });
+      expect(Alert.alert).toHaveBeenCalledWith(
+        'Failed to add shortened link',
+        'Shortening failed'
+      );
     });
 
     it('should always set loading to false in finally block', async () => {

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useColorScheme } from "react-native";
+import { useColorScheme, Appearance } from "react-native";
 
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
@@ -24,7 +24,7 @@ type AppState = {
 // Create store without hooks - initialization will happen in a React component
 const useAppStore = create<AppState>()(
   subscribeWithSelector((set) => ({
-    theme: Theme.LIGHT, // Default value
+    theme: getInitialTheme(Appearance.getColorScheme()), // Initialize with system theme
     switchTheme: () =>
       set((state) => ({
         theme: state.theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT,
