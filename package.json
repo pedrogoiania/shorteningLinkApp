@@ -9,8 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "generate-env": "node ./scripts/generate-env.js",
-    "postinstall": "npm run generate-env"
+    "postinstall": "cp .env.example .env"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

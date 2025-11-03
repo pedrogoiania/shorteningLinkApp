@@ -1,13 +1,14 @@
+import { ShortenedLinkWireIn } from "@/src/data/models/ShortenedLink";
 import { create } from "zustand";
 
 type ShortenedLinksState = {
-  shortenedLinks: string[];
-  addShortenedLink: (link: string) => void;
+  shortenedLinks: ShortenedLinkWireIn[];
+  addShortenedLink: (link: ShortenedLinkWireIn) => void;
 };
 
 const useShortenedLinksStore = create<ShortenedLinksState>((set) => ({
   shortenedLinks: [],
-  addShortenedLink: (link: string) =>
+  addShortenedLink: (link: ShortenedLinkWireIn) =>
     set((state) => ({ shortenedLinks: [...state.shortenedLinks, link] })),
 }));
 
