@@ -5,12 +5,17 @@ const lightColors = {
   background: "#FFFFFF",
   text: "#000000",
   gray: "#808080",
+  black: "#000000",
+  white: "#FFFFFF",
+  error: "#DC143C",
 };
 
 const darkColors = {
   background: "#000000",
   text: "#FFFFFF",
   gray: "#808080",
+  black: "#000000",
+  error: "#DC143C",
 };
 function useColors() {
   const { theme } = useAppStore();

@@ -1,22 +1,26 @@
 import { useMemo } from "react";
 import {
-    Text as RNText,
-    TextProps as RNTextProps,
-    StyleSheet,
+  Text as RNText,
+  TextProps as RNTextProps,
+  StyleSheet,
 } from "react-native";
 import useColors from "../colors/useColors";
+import sizes from "../sizes/sizes";
 
 const buildStyles = (colors: ReturnType<typeof useColors>) => {
   return StyleSheet.create({
+    // Sizes
     small: {
-      fontSize: 12,
+      fontSize: sizes.fontSizes.small,
     },
     medium: {
-      fontSize: 16,
+      fontSize: sizes.fontSizes.medium,
     },
     large: {
-      fontSize: 20,
+      fontSize: sizes.fontSizes.large,
     },
+
+    // Weights
     bold: {
       fontWeight: "bold",
     },
@@ -26,19 +30,24 @@ const buildStyles = (colors: ReturnType<typeof useColors>) => {
     light: {
       fontWeight: "light",
     },
+
+    // Variants
     primary: {
       color: colors.text,
     },
     secondary: {
       color: colors.gray,
     },
+    error: {
+      color: colors.error,
+    },
   });
 };
 
 type TextProps = RNTextProps & {
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "error";
   size?: "small" | "medium" | "large";
-  weight?: "light" | "regular" | "bold";
+  weight?: keyof typeof sizes.fontWeights;
 };
 
 function Text({ children, ...props }: TextProps) {

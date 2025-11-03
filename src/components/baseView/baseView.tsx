@@ -11,9 +11,8 @@ const buildStyles = (colors: ReturnType<typeof useColors>, theme: Theme) => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
       backgroundColor: colors.background,
+      paddingHorizontal: 16,
     },
     content: {
       flex: 1,
@@ -50,8 +49,8 @@ const buildStyles = (colors: ReturnType<typeof useColors>, theme: Theme) => {
  *
  * @todo: should be translated and could be moved to a separate file
  */
-const screenNames = {
-  shortenedLinksScreen: "Shortened Links",
+enum ScreenNames {
+  shortenedLinksScreen = "Shortened Links",
 };
 
 type BaseViewProps = {
@@ -73,6 +72,10 @@ function Header({ showHeader, headerLeft, headerRight }: HeaderProps) {
 
   const { name } = useRoute();
 
+  const screenName = useMemo(() => {
+    return ScreenNames[name as keyof typeof ScreenNames] || "Unknown";
+  }, [name]);
+
   const styles = useMemo(() => buildStyles(colors, theme), [colors, theme]);
 
   if (!showHeader) return null;
@@ -86,7 +89,7 @@ function Header({ showHeader, headerLeft, headerRight }: HeaderProps) {
       </View>
       <View style={styles.headerTitle}>
         <Text size="medium" weight="bold" variant="primary">
-          {screenNames[name as keyof typeof screenNames]}
+          {screenName}
         </Text>
       </View>
       <View
