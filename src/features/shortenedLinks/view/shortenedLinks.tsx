@@ -1,10 +1,11 @@
-import { Text, View } from "react-native";
+import BaseView from "@/src/components/baseView/baseView";
+import Text from "@/src/components/text/text";
 
 function ShortenedLinks() {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>ShortenedLinks View Component</Text>
-    </View>
+    <BaseView>
+      <Text>ShortenedLinks View Component!</Text>
+    </BaseView>
   );
 }
 
