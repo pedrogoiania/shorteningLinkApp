@@ -3,6 +3,10 @@ import { useMemo } from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
 import useColors from "../colors/useColors";
 
+import { useRoute } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Text from "../text/text";
+
 const buildStyles = (colors: ReturnType<typeof useColors>, theme: Theme) => {
   return StyleSheet.create({
     container: {
@@ -11,10 +15,95 @@ const buildStyles = (colors: ReturnType<typeof useColors>, theme: Theme) => {
       alignItems: "center",
       backgroundColor: colors.background,
     },
+    content: {
+      flex: 1,
+    },
+    header: {
+      flexDirection: "row",
+      flex: 1,
+      maxHeight: 56,
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.gray,
+      backgroundColor: colors.background,
+      marginBottom: 4,
+    },
+    headerLeft: {
+      width: 56,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    headerRight: {
+      width: 56,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    headerTitle: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
   });
 };
 
-function BaseView({ children }: { children: React.ReactNode }) {
+/**
+ *
+ * @todo: should be translated and could be moved to a separate file
+ */
+const screenNames = {
+  shortenedLinksScreen: "Shortened Links",
+};
+
+type BaseViewProps = {
+  children: React.ReactNode;
+  headerRight?: React.ReactNode;
+  headerLeft?: React.ReactNode;
+  showHeader?: boolean;
+};
+
+type HeaderProps = {
+  showHeader: boolean;
+  headerLeft?: React.ReactNode;
+  headerRight?: React.ReactNode;
+};
+
+function Header({ showHeader, headerLeft, headerRight }: HeaderProps) {
+  const { theme } = useAppStore();
+  const colors = useColors();
+
+  const { name } = useRoute();
+
+  const styles = useMemo(() => buildStyles(colors, theme), [colors, theme]);
+
+  if (!showHeader) return null;
+
+  return (
+    <View style={styles.header}>
+      <View
+        style={styles.headerRight}
+      >
+        {headerLeft || null}
+      </View>
+      <View style={styles.headerTitle}>
+        <Text size="medium" weight="bold" variant="primary">
+          {screenNames[name as keyof typeof screenNames]}
+        </Text>
+      </View>
+      <View
+        style={styles.headerRight}
+      >
+        {headerRight || null}
+      </View>
+    </View>
+  );
+}
+
+function BaseView({
+  children,
+  headerRight,
+  headerLeft,
+  showHeader = true,
+}: BaseViewProps) {
   const { theme } = useAppStore();
   const colors = useColors();
 
@@ -25,10 +114,17 @@ function BaseView({ children }: { children: React.ReactNode }) {
   }, [theme]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle={barStyle} />
-      {children}
-    </View>
+
+      <Header
+        showHeader={showHeader}
+        headerLeft={headerLeft}
+        headerRight={headerRight}
+      />
+
+      <View style={styles.content}>{children}</View>
+    </SafeAreaView>
   );
 }
 

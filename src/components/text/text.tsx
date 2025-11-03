@@ -30,7 +30,7 @@ const buildStyles = (colors: ReturnType<typeof useColors>) => {
       color: colors.text,
     },
     secondary: {
-      color: colors.text,
+      color: colors.gray,
     },
   });
 };

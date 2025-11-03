@@ -4,7 +4,9 @@ import Text from "@/src/components/text/text";
 function ShortenedLinks() {
   return (
     <BaseView>
-      <Text>ShortenedLinks View Component!</Text>
+      <Text size="small" weight="light" variant="secondary">
+        ShortenedLinks View Component!
+      </Text>
     </BaseView>
   );
 }
