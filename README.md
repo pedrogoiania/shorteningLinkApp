@@ -28,6 +28,14 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 ## To run the tests
 
+1. Just to run the tests
+
    ```bash
    yarn test
+   ```
+
+2. If you want to see the coverage
+
+   ```bash
+   yarn test:coverage
    ```
